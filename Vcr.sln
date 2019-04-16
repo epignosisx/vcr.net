@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vcr", "..\src\Vcr\Vcr.csproj", "{70CC0552-4F8A-4B4E-8E88-7E911832632A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vcr.Test", "test\Vcr.Test\Vcr.Test.csproj", "{64AD814E-8F3B-4032-992A-A915E0F84E6B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DFC403F8-5DFA-456D-BAF3-420D5390DF1A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70CC0552-4F8A-4B4E-8E88-7E911832632A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70CC0552-4F8A-4B4E-8E88-7E911832632A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70CC0552-4F8A-4B4E-8E88-7E911832632A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70CC0552-4F8A-4B4E-8E88-7E911832632A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64AD814E-8F3B-4032-992A-A915E0F84E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64AD814E-8F3B-4032-992A-A915E0F84E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64AD814E-8F3B-4032-992A-A915E0F84E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64AD814E-8F3B-4032-992A-A915E0F84E6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D82667F-AB75-43D3-A521-377AE4A86C83}
+	EndGlobalSection
+EndGlobal
