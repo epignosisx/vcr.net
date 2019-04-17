@@ -5,6 +5,6 @@ namespace Vcr
 {
     public interface IRequestMatcher
     {
-        HttpInteraction FindMatch(IReadOnlyList<HttpInteraction> httpInteractions, HttpRequestMessage request);
+        HttpInteraction FindMatch(IReadOnlyList<HttpInteraction> httpInteractions, HttpRequest request);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Vcr
 {
-    internal class HttpStatus
+    public class HttpStatus
     {
         [YamlMember(1)]
         public int Code { get; set; }

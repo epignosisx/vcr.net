@@ -48,8 +48,7 @@ namespace Vcr.Test
             var sut = new FileSystemCassetteStorage(_dir);
             var list = new List<HttpInteraction> {
                 new HttpInteraction {
-                    Request = CreateHttpRequestMessage(),
-                    Response = CreateHttpResponseMessage()
+                    Request = HttpRequest.Create(CreateHttpRequestMessage(), CreateHttpResponseMessage())
                 }
             };
 
@@ -63,8 +62,8 @@ namespace Vcr.Test
             var newList = sut.Load("a cassette");
             Assert.Single(newList);
             Assert.False(newList[0].Played);
-            Assert.NotNull(newList[0].Response);
-            Assert.NotNull(newList[0].Response);
+            Assert.NotNull(newList[0].Request);
+            Assert.NotNull(newList[0].Request.Response);
         }
 
         private static HttpRequestMessage CreateHttpRequestMessage()

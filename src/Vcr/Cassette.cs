@@ -66,7 +66,7 @@ namespace Vcr
 
         private Task<HttpResponseMessage> PlaybackAsync(HttpRequestMessage request)
         {
-            var match = _requestMatcher.FindMatch(_httpInteractions, request);
+            var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request, null));
             if (match == null)
                 throw new Exception("No matching request found"); //TODO: throw custom exception with more details.
 
@@ -83,13 +83,13 @@ namespace Vcr
             if (response.Content != null)
                 await response.Content.LoadIntoBufferAsync();
 
-            _httpInteractions.Add(new HttpInteraction { Request = request, Response = response });
+            _httpInteractions.Add(new HttpInteraction { Request = HttpRequest.Create(request, response) });
             return response;
         }
 
         private Task<HttpResponseMessage> RecordNewAsync(HttpCallAsync call, HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var match = _requestMatcher.FindMatch(_httpInteractions, request);
+            var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request, null));
             if (match == null)
                 return RecordAsync(call, request, cancellationToken);
 
@@ -98,7 +98,7 @@ namespace Vcr
 
         private Task<HttpResponseMessage> RecordOnceAsync(HttpCallAsync call, HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var match = _requestMatcher.FindMatch(_httpInteractions, request);
+            var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request, null));
             if (match != null)
                 return ProcessMatchAsync(match);
 
@@ -111,7 +111,9 @@ namespace Vcr
         private Task<HttpResponseMessage> ProcessMatchAsync(HttpInteraction match)
         {
             match.Played = true;
-            return Task.FromResult(match.Response);
+            var httpRequestMessage = match.Request.ToHttpRequestMessage();
+            var httpResponseMessage = match.Request.Response.ToHttpRequestMessage(httpRequestMessage);
+            return Task.FromResult(httpResponseMessage);
         }
 
     }

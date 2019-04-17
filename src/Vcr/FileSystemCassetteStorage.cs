@@ -38,7 +38,7 @@ namespace Vcr
                 var serializer = new Serializer();
                 var tape = serializer.Deserialize<StorageWrapperV1>(stream);
                 return tape.HttpInteractions
-                    .Select(n => new HttpInteraction { Request = n.ToHttpRequestMessage(), Response = n.Response.ToHttpRequestMessage() })
+                    .Select(n => new HttpInteraction { Request = n })
                     .ToList();
             }
         }
@@ -51,8 +51,7 @@ namespace Vcr
             List<HttpRequest> requests = new List<HttpRequest>(httpInteractions.Count);
             foreach(var httpInteraction in httpInteractions)
             {
-                var httpRequest = HttpRequest.Create(httpInteraction);
-                requests.Add(httpRequest);
+                requests.Add(httpInteraction.Request);
             }
 
             using (var stream = file.Open(FileMode.OpenOrCreate, FileAccess.Write))

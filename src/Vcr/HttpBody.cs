@@ -2,7 +2,7 @@
 
 namespace Vcr
 {
-    internal class HttpBody
+    public class HttpBody
     {
         [YamlMember(1)]
         public string Encoding { get; set; }

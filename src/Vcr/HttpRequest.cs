@@ -4,7 +4,7 @@ using System.Net.Http;
 
 namespace Vcr
 {
-    internal class HttpRequest
+    public class HttpRequest
     {
         [YamlMember(1)]
         public string Uri { get; set; }
@@ -21,9 +21,8 @@ namespace Vcr
         [YamlMember(5)]
         public HttpResponse Response { get; set; }
 
-        public static HttpRequest Create(HttpInteraction httpInteraction)
+        public static HttpRequest Create(HttpRequestMessage httpRequestMessage, HttpResponseMessage httpResponseMessage)
         {
-            var httpRequestMessage = httpInteraction.Request;
             var request = new HttpRequest();
             request.Method = httpRequestMessage.Method.ToString();
             request.Uri = httpRequestMessage.RequestUri.AbsoluteUri;
@@ -59,7 +58,10 @@ namespace Vcr
                 }
             }
 
-            request.Response = HttpResponse.Create(httpInteraction.Response);
+            if (httpResponseMessage != null)
+            {
+                request.Response = HttpResponse.Create(httpResponseMessage);
+            }
 
             return request;
         }

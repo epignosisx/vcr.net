@@ -5,12 +5,12 @@ namespace Vcr
 {
     public class DefaultRequestMatcher : IRequestMatcher
     {
-        public HttpInteraction FindMatch(IReadOnlyList<HttpInteraction> httpInteractions, HttpRequestMessage request)
+        public HttpInteraction FindMatch(IReadOnlyList<HttpInteraction> httpInteractions, HttpRequest request)
         {
             HttpInteraction bestMatch = null;
             foreach(var httpInteraction in httpInteractions)
             {
-                if (httpInteraction.Request.RequestUri == request.RequestUri &&
+                if (httpInteraction.Request.Uri == request.Uri &&
                     httpInteraction.Request.Method == request.Method)
                 {
                     if (!httpInteraction.Played)

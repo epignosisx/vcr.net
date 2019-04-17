@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 
 namespace Vcr
 {
-    internal class HttpResponse
+    public class HttpResponse
     {
         [YamlMember(1)]
         public HttpStatus Status { get; set; }
@@ -47,6 +48,9 @@ namespace Vcr
                 //TODO: verify if this fallback logic should be the other way around.
                 response.Body.Encoding = httpResponseMessage.Content.Headers.ContentType?.CharSet ?? string.Join(", ", httpResponseMessage.Content.Headers.ContentEncoding);
 
+                if (httpResponseMessage.Content.Headers.ContentType?.CharSet == "\"utf-8\"")
+                    httpResponseMessage.Content.Headers.ContentType.CharSet = "utf-8";
+
                 //TODO: serialize to base64 if content type is not string based.
                 response.Body.String = httpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult(); // ok, since we called 'LoadIntoBufferAsync'.
 
@@ -64,13 +68,17 @@ namespace Vcr
             return response;
         }
 
-        public HttpResponseMessage ToHttpRequestMessage()
+        public HttpResponseMessage ToHttpRequestMessage(HttpRequestMessage request)
         {
             var httpResponseMessage = new HttpResponseMessage((HttpStatusCode)Status.Code);
             httpResponseMessage.ReasonPhrase = Status.Message;
+            httpResponseMessage.RequestMessage = request;
 
             if (Body != null)
+            {
                 httpResponseMessage.Content = new StringContent(Body.String);
+                httpResponseMessage.Content.Headers.Remove("Content-Type");//StringContent adds text/plain
+            }
 
             foreach (var header in Headers)
             {
