@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Vcr\Vcr.csproj" />
+    <ProjectReference Include="..\..\src\Vcr\Vcr.csproj" />
   </ItemGroup>
 
   <ItemGroup>
