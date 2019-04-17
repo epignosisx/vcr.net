@@ -11,8 +11,7 @@ namespace Vcr.Test
 
         public CassetteTest()
         {
-            _vcr = new VCR();
-            _vcr.Storage = new MemoryStorage();
+            _vcr = new VCR(new MemoryStorage());
         }
 
         [Fact]

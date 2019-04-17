@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
-using System.Text;
 using System.Threading.Tasks;
 using SampleSoap;
 using Xunit;
@@ -18,8 +16,7 @@ namespace Vcr.Test
 
         public WcfTest()
         {
-            _vcr = new VCR();
-            _vcr.Storage = new MemoryStorage();
+            _vcr = new VCR(new MemoryStorage());
         }
 
         [Fact]
