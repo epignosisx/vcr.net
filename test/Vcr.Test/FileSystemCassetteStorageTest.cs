@@ -46,9 +46,11 @@ namespace Vcr.Test
         {
             //arrange
             var sut = new FileSystemCassetteStorage(_dir);
+            var request = HttpRequest.Create(CreateHttpRequestMessage());
+            request.Response = HttpResponse.Create(CreateHttpResponseMessage());
             var list = new List<HttpInteraction> {
                 new HttpInteraction {
-                    Request = HttpRequest.Create(CreateHttpRequestMessage(), CreateHttpResponseMessage())
+                    Request = request
                 }
             };
 

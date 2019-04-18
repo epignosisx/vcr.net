@@ -66,7 +66,7 @@ namespace Vcr
 
         private Task<HttpResponseMessage> PlaybackAsync(HttpRequestMessage request)
         {
-            var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request, null));
+            var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request));
             if (match == null)
                 throw new Exception("No matching request found"); //TODO: throw custom exception with more details.
 
@@ -78,18 +78,23 @@ namespace Vcr
             if (request.Content != null)
                 await request.Content.LoadIntoBufferAsync();
 
+            //HttpRequest must be created before passing to the rest of the HttpClient middleware
+            //since additional handlers can modify the request, ie. add headers which we will not have
+            //when replaying and trying to mach.
+            var httpRequest = HttpRequest.Create(request);
             var response = await call(request, cancellationToken);
 
             if (response.Content != null)
                 await response.Content.LoadIntoBufferAsync();
 
-            _httpInteractions.Add(new HttpInteraction { Request = HttpRequest.Create(request, response) });
+            httpRequest.Response = HttpResponse.Create(response);
+            _httpInteractions.Add(new HttpInteraction { Request = httpRequest });
             return response;
         }
 
         private Task<HttpResponseMessage> RecordNewAsync(HttpCallAsync call, HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request, null));
+            var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request));
             if (match == null)
                 return RecordAsync(call, request, cancellationToken);
 
@@ -98,7 +103,7 @@ namespace Vcr
 
         private Task<HttpResponseMessage> RecordOnceAsync(HttpCallAsync call, HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request, null));
+            var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request));
             if (match != null)
                 return ProcessMatchAsync(match);
 

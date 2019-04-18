@@ -21,7 +21,7 @@ namespace Vcr
         [YamlMember(5)]
         public HttpResponse Response { get; set; }
 
-        public static HttpRequest Create(HttpRequestMessage httpRequestMessage, HttpResponseMessage httpResponseMessage)
+        public static HttpRequest Create(HttpRequestMessage httpRequestMessage)
         {
             var request = new HttpRequest();
             request.Method = httpRequestMessage.Method.ToString();
@@ -56,11 +56,6 @@ namespace Vcr
                     }
                     values.AddRange(header.Value);
                 }
-            }
-
-            if (httpResponseMessage != null)
-            {
-                request.Response = HttpResponse.Create(httpResponseMessage);
             }
 
             return request;
