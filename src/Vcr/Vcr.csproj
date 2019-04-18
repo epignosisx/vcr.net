@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SharpYaml" Version="1.6.5" />
+    <PackageReference Include="YamlDotNet" Version="6.0.0" />
   </ItemGroup>
   
 </Project>

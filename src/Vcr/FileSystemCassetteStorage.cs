@@ -1,8 +1,9 @@
-﻿using SharpYaml.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Vcr
 {
@@ -34,9 +35,13 @@ namespace Vcr
         private List<HttpInteraction> LoadFile(FileInfo file)
         {
             using (var stream = file.OpenRead())
+            using (var reader = new StreamReader(stream))
             {
-                var serializer = new Serializer();
-                var tape = serializer.Deserialize<StorageWrapperV1>(stream);
+                var serializer = new DeserializerBuilder()
+                    .WithNamingConvention(new CamelCaseNamingConvention())
+                    .Build();
+
+                var tape = serializer.Deserialize<StorageWrapperV1>(reader);
                 return tape.HttpInteractions
                     .Select(n => new HttpInteraction { Request = n.Request, Response = n.Response })
                     .ToList();
@@ -49,15 +54,14 @@ namespace Vcr
             var file = new FileInfo(Path.Combine(_storageLocation.FullName, safeName));
 
             using (var stream = file.Open(FileMode.OpenOrCreate, FileAccess.Write))
+            using (var writer = new StreamWriter(stream))
             {
-                var serializer = new Serializer(new SerializerSettings {
-                     DefaultStyle = SharpYaml.YamlStyle.Block,
-                     EmitJsonComptible = false,
-                     EmitAlias = false,
-                     EmitTags = false,
-                     SortKeyForMapping = false
-                });
-                serializer.Serialize(stream, new StorageWrapperV1 { HttpInteractions = httpInteractions });
+                var serializer = new SerializerBuilder()
+                    .DisableAliases()
+                    .WithNamingConvention(new CamelCaseNamingConvention())
+                    .Build();
+
+                serializer.Serialize(writer, new StorageWrapperV1 { HttpInteractions = httpInteractions });
             }
         }
 
@@ -72,9 +76,9 @@ namespace Vcr
 
         private class StorageWrapperV1
         {
-            [SharpYaml.Serialization.YamlMember(1)]
-            public int Version { get; set; } = 1;
-            [SharpYaml.Serialization.YamlMember(2)]
+            [YamlMember(Order = 1)]
+            public string Version { get; set; } = "VCR.net 1.0.0";
+            [YamlMember(Order = 2)]
             public List<HttpInteraction> HttpInteractions { get; set; }
         }
     }

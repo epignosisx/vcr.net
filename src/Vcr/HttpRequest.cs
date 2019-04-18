@@ -1,21 +1,21 @@
-﻿using SharpYaml.Serialization;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
+using YamlDotNet.Serialization;
 
 namespace Vcr
 {
     public class HttpRequest
     {
-        [YamlMember(1)]
+        [YamlMember(Order = 1)]
         public string Uri { get; set; }
 
-        [YamlMember(2)]
+        [YamlMember(Order = 2)]
         public string Method { get; set; }
 
-        [YamlMember(3)]
+        [YamlMember(Order = 3)]
         public Dictionary<string, List<string>> Headers { get; set; } = new Dictionary<string, List<string>>();
 
-        [YamlMember(4)]
+        [YamlMember(Order = 4)]
         public HttpBody Body { get; set; }
         
         public static HttpRequest Create(HttpRequestMessage httpRequestMessage)

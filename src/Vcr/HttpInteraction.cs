@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using SharpYaml.Serialization;
+﻿using YamlDotNet.Serialization;
 
 namespace Vcr
 {
@@ -8,10 +7,10 @@ namespace Vcr
         [YamlIgnore]
         public bool Played { get; set; }
 
-        [YamlMember(1)]
+        [YamlMember(Order = 1)]
         public HttpRequest Request { get; set; }
 
-        [YamlMember(2)]
+        [YamlMember(Order = 2)]
         public HttpResponse Response { get; set; }
     }
 }
