@@ -58,6 +58,7 @@ namespace Vcr
             {
                 var serializer = new Serializer(new SerializerSettings {
                      DefaultStyle = SharpYaml.YamlStyle.Block,
+                     EmitJsonComptible = false,
                      EmitAlias = false,
                      EmitTags = false,
                      SortKeyForMapping = false
