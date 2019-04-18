@@ -12,9 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vcr", "src\Vcr\Vcr.csproj", "{D6158152-1078-456D-B4B9-BA2BFA1FB988}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApp", "samples\SampleWebApp\SampleWebApp.csproj", "{D5383DE5-CE69-4BCB-AF1F-946F03D97C66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApp.IntegrationTest", "sample\SampleWebApp.IntegrationTest\SampleWebApp.IntegrationTest.csproj", "{751430B4-B3C5-4151-B7EF-657D005447EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApp.IntegrationTest", "sample\SampleWebApp.IntegrationTest\SampleWebApp.IntegrationTest.csproj", "{751430B4-B3C5-4151-B7EF-657D005447EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApp", "sample\SampleWebApp\SampleWebApp.csproj", "{60D47888-2805-4B2C-85A8-06E3D0CAA3B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,14 +30,14 @@ Global
 		{D6158152-1078-456D-B4B9-BA2BFA1FB988}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6158152-1078-456D-B4B9-BA2BFA1FB988}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6158152-1078-456D-B4B9-BA2BFA1FB988}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D5383DE5-CE69-4BCB-AF1F-946F03D97C66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5383DE5-CE69-4BCB-AF1F-946F03D97C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5383DE5-CE69-4BCB-AF1F-946F03D97C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5383DE5-CE69-4BCB-AF1F-946F03D97C66}.Release|Any CPU.Build.0 = Release|Any CPU
 		{751430B4-B3C5-4151-B7EF-657D005447EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{751430B4-B3C5-4151-B7EF-657D005447EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{751430B4-B3C5-4151-B7EF-657D005447EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{751430B4-B3C5-4151-B7EF-657D005447EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60D47888-2805-4B2C-85A8-06E3D0CAA3B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60D47888-2805-4B2C-85A8-06E3D0CAA3B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60D47888-2805-4B2C-85A8-06E3D0CAA3B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60D47888-2805-4B2C-85A8-06E3D0CAA3B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

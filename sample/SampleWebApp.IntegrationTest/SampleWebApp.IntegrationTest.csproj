@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\samples\SampleWebApp\SampleWebApp.csproj" />
+    <ProjectReference Include="..\SampleWebApp\SampleWebApp.csproj" />
     <ProjectReference Include="..\..\src\Vcr\Vcr.csproj" />
   </ItemGroup>
 
