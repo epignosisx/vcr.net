@@ -46,11 +46,10 @@ namespace Vcr.Test
         {
             //arrange
             var sut = new FileSystemCassetteStorage(_dir);
-            var request = HttpRequest.Create(CreateHttpRequestMessage());
-            request.Response = HttpResponse.Create(CreateHttpResponseMessage());
             var list = new List<HttpInteraction> {
                 new HttpInteraction {
-                    Request = request
+                    Request = HttpRequest.Create(CreateHttpRequestMessage()),
+                    Response = HttpResponse.Create(CreateHttpResponseMessage())
                 }
             };
 
@@ -65,7 +64,7 @@ namespace Vcr.Test
             Assert.Single(newList);
             Assert.False(newList[0].Played);
             Assert.NotNull(newList[0].Request);
-            Assert.NotNull(newList[0].Request.Response);
+            Assert.NotNull(newList[0].Response);
         }
 
         private static HttpRequestMessage CreateHttpRequestMessage()

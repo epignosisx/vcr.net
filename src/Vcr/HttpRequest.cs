@@ -17,10 +17,7 @@ namespace Vcr
 
         [YamlMember(4)]
         public HttpBody Body { get; set; }
-
-        [YamlMember(5)]
-        public HttpResponse Response { get; set; }
-
+        
         public static HttpRequest Create(HttpRequestMessage httpRequestMessage)
         {
             var request = new HttpRequest();

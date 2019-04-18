@@ -38,7 +38,7 @@ namespace Vcr
                 var serializer = new Serializer();
                 var tape = serializer.Deserialize<StorageWrapperV1>(stream);
                 return tape.HttpInteractions
-                    .Select(n => new HttpInteraction { Request = n })
+                    .Select(n => new HttpInteraction { Request = n.Request, Response = n.Response })
                     .ToList();
             }
         }
@@ -47,12 +47,6 @@ namespace Vcr
         {
             var safeName = GetSafeFileName(name);
             var file = new FileInfo(Path.Combine(_storageLocation.FullName, safeName));
-
-            List<HttpRequest> requests = new List<HttpRequest>(httpInteractions.Count);
-            foreach(var httpInteraction in httpInteractions)
-            {
-                requests.Add(httpInteraction.Request);
-            }
 
             using (var stream = file.Open(FileMode.OpenOrCreate, FileAccess.Write))
             {
@@ -63,7 +57,7 @@ namespace Vcr
                      EmitTags = false,
                      SortKeyForMapping = false
                 });
-                serializer.Serialize(stream, new StorageWrapperV1 { HttpInteractions = requests });
+                serializer.Serialize(stream, new StorageWrapperV1 { HttpInteractions = httpInteractions });
             }
         }
 
@@ -81,7 +75,7 @@ namespace Vcr
             [SharpYaml.Serialization.YamlMember(1)]
             public int Version { get; set; } = 1;
             [SharpYaml.Serialization.YamlMember(2)]
-            public List<HttpRequest> HttpInteractions { get; set; }
+            public List<HttpInteraction> HttpInteractions { get; set; }
         }
     }
 }

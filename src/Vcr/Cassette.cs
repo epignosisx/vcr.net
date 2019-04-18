@@ -87,8 +87,7 @@ namespace Vcr
             if (response.Content != null)
                 await response.Content.LoadIntoBufferAsync();
 
-            httpRequest.Response = HttpResponse.Create(response);
-            _httpInteractions.Add(new HttpInteraction { Request = httpRequest });
+            _httpInteractions.Add(new HttpInteraction { Request = httpRequest, Response = HttpResponse.Create(response) });
             return response;
         }
 
@@ -117,7 +116,7 @@ namespace Vcr
         {
             match.Played = true;
             var httpRequestMessage = match.Request.ToHttpRequestMessage();
-            var httpResponseMessage = match.Request.Response.ToHttpRequestMessage(httpRequestMessage);
+            var httpResponseMessage = match.Response.ToHttpRequestMessage(httpRequestMessage);
             return Task.FromResult(httpResponseMessage);
         }
 

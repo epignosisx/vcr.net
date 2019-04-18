@@ -8,6 +8,8 @@ namespace Vcr.Test
     public class CassetteTest
     {
         private readonly VCR _vcr;
+        private const string s_testUrl = "http://portquiz.net"; //"https://www1.uatcarnival.com/app-status";
+        private const string s_secondaryTestUrl = "http://portquiz.net:8080"; //"https://www1.uatcarnival.com/bookingengine/app-status";
 
         public CassetteTest()
         {
@@ -21,14 +23,14 @@ namespace Vcr.Test
             {
                 var vcrHandler = _vcr.GetVcrHandler();
                 var httpClient = CreateHttpClient(vcrHandler);
-                var response = await httpClient.GetAsync("http://portquiz.net");
+                var response = await httpClient.GetAsync(s_testUrl);
             }
 
             using (_vcr.UseCassette("something", RecordMode.None))
             {
                 var vcrHandler = _vcr.GetVcrHandler();
                 var httpClient = CreateHttpClient(vcrHandler);
-                var response = await httpClient.GetAsync("http://portquiz.net");
+                var response = await httpClient.GetAsync(s_testUrl);
             }
 
             Assert.True(true);
@@ -41,8 +43,8 @@ namespace Vcr.Test
             {
                 var vcrHandler = _vcr.GetVcrHandler();
                 var httpClient = CreateHttpClient(vcrHandler);
-                await httpClient.GetAsync("http://portquiz.net");
-                await httpClient.GetAsync("http://portquiz.net");
+                await httpClient.GetAsync(s_testUrl);
+                await httpClient.GetAsync(s_testUrl);
 
                 Assert.Equal(2, _vcr.Cassette.HttpInteractions.Count);
             }
@@ -56,7 +58,7 @@ namespace Vcr.Test
                 var vcrHandler = _vcr.GetVcrHandler();
                 var httpClient = CreateHttpClient(vcrHandler);
 
-                await Assert.ThrowsAsync<Exception>(() => httpClient.GetAsync("http://portquiz.net"));
+                await Assert.ThrowsAsync<Exception>(() => httpClient.GetAsync(s_testUrl));
             }
         }
 
@@ -68,7 +70,7 @@ namespace Vcr.Test
             {
                 var vcrHandler = _vcr.GetVcrHandler();
                 var httpClient = CreateHttpClient(vcrHandler);
-                await httpClient.GetAsync("http://portquiz.net");
+                await httpClient.GetAsync(s_testUrl);
             }
 
             // Replay
@@ -76,7 +78,7 @@ namespace Vcr.Test
             {
                 var vcrHandler = _vcr.GetVcrHandler();
                 var httpClient = CreateHttpClient(vcrHandler);
-                await httpClient.GetAsync("http://portquiz.net");
+                await httpClient.GetAsync(s_testUrl);
                 Assert.Single(_vcr.Cassette.HttpInteractions);
             }
 
@@ -85,7 +87,7 @@ namespace Vcr.Test
             {
                 var vcrHandler = _vcr.GetVcrHandler();
                 var httpClient = CreateHttpClient(vcrHandler);
-                await httpClient.GetAsync("http://portquiz.net:8080");
+                await httpClient.GetAsync(s_secondaryTestUrl);
                 Assert.Equal(2, _vcr.Cassette.HttpInteractions.Count);
             }
         }

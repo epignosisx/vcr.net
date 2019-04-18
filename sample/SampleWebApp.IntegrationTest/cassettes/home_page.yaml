@@ -1,9 +1,10 @@
 Version: 1
 HttpInteractions:
-  - Uri: https://httpbin.org/get
-    Method: GET
-    Headers: {}
-    Body: null
+  - Request:
+      Uri: https://httpbin.org/get
+      Method: GET
+      Headers: {}
+      Body: null
     Response:
       Status:
         Code: 200
