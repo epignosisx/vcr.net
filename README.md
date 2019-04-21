@@ -19,15 +19,19 @@ To integrate into your ASP.NET Core integration tests, first ensure you have a w
 One way of doing it is by registering the `HttpClient` in DI and let all consumers take it from DI:
 
 In Startup.cs:
+
 https://github.com/epignosisx/vcr.net/blob/acaecd0f64601e242e9e655db35eb186d0a46ebf/sample/SampleWebApp/Startup.cs#L26-L32
 
 In consuming code:
+
 https://github.com/epignosisx/vcr.net/blob/acaecd0f64601e242e9e655db35eb186d0a46ebf/sample/SampleWebApp/Controllers/HomeController.cs#L16-L21
 
 Then from your integration tests, override the `HttpClient` in DI with a new one containing the VCR.net's delegating handler:
+
 https://github.com/epignosisx/vcr.net/blob/acaecd0f64601e242e9e655db35eb186d0a46ebf/sample/SampleWebApp.IntegrationTest/HomeControllerTest.cs#L12-L31
 
 And finally wrap your test in the cassette you would like to use to record and playback HTTP interactions:
+
 https://github.com/epignosisx/vcr.net/blob/acaecd0f64601e242e9e655db35eb186d0a46ebf/sample/SampleWebApp.IntegrationTest/HomeControllerTest.cs#L33-L46
 
 [Full sample can be found here.](https://github.com/epignosisx/vcr.net/tree/master/sample)
