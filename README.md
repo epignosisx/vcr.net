@@ -68,6 +68,8 @@ public class HomeControllerTest : IClassFixture<WebApplicationFactory<SampleWebA
 
     public HomeControllerTest(WebApplicationFactory<SampleWebApp.Startup> factory)
     {
+        //The directory created should be included in source control
+        //to allow future test runs to be playbacked and not recorded.
         var dirInfo = new System.IO.DirectoryInfo("../../../cassettes"); //3 levels up to get to the root of the test project
         _vcr = new VCR(new FileSystemCassetteStorage(dirInfo));
 
