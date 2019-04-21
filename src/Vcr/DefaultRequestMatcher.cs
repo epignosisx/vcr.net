@@ -5,7 +5,10 @@ namespace Vcr
 {
     public class DefaultRequestMatcher : IRequestMatcher
     {
-        public HashSet<string> IgnoreHeaders { get; } = new HashSet<string> { "Date" };
+        public bool CompareHeaders { get; set; } = false;
+        public bool CompareBody { get; set; } = false;
+
+        public HashSet<string> IgnoreHeaders { get; } = new HashSet<string>();
 
         public HttpInteraction FindMatch(IReadOnlyList<HttpInteraction> httpInteractions, HttpRequest request)
         {
@@ -15,23 +18,32 @@ namespace Vcr
                 if (httpInteraction.Played)
                     continue;
 
-                if (httpInteraction.Request.Uri != request.Uri)
+                if (!UriEqual(httpInteraction.Request, request))
                     continue;
 
-                if (httpInteraction.Request.Method != request.Method)
+                if (!MethodEqual(httpInteraction.Request, request))
                     continue;
 
-                if (!HeadersEqual(httpInteraction.Request, request))
+                if (CompareHeaders && !HeadersEqual(httpInteraction.Request, request))
                     continue;
 
-                if (!BodysEqual(httpInteraction.Request, request))
+                if (CompareBody && !BodysEqual(httpInteraction.Request, request))
                     continue;
 
-                if (!httpInteraction.Played)
-                    return httpInteraction;
+                return httpInteraction;
             }
 
             return bestMatch;
+        }
+
+        protected virtual bool MethodEqual(HttpRequest recordedRequest, HttpRequest request)
+        {
+            return recordedRequest.Method == request.Method;
+        }
+
+        protected virtual bool UriEqual(HttpRequest recordedRequest, HttpRequest request)
+        {
+            return recordedRequest.Uri == request.Uri;
         }
 
         protected virtual bool HeadersEqual(HttpRequest recordedRequest, HttpRequest request)
@@ -47,7 +59,7 @@ namespace Vcr
                 if (recordedHeader.Value.Count != headerValues.Count)
                     return false;
 
-                if (recordedHeader.Value.Except(headerValues).Any())
+                if (!recordedHeader.Value.SequenceEqual(headerValues))
                     return false;
             }
 
