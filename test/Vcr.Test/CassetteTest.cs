@@ -50,7 +50,7 @@ namespace Vcr.Test
             {
                 var vcrHandler = _vcr.GetVcrHandler();
                 var httpClient = CreateHttpClient(vcrHandler);
-                await Assert.ThrowsAsync<Exception>(() => httpClient.GetAsync(s_secondaryTestUrl));
+                await Assert.ThrowsAsync<MatchNotFoundException>(() => httpClient.GetAsync(s_secondaryTestUrl));
             }
         }
 
@@ -94,7 +94,7 @@ namespace Vcr.Test
                 var vcrHandler = _vcr.GetVcrHandler();
                 var httpClient = CreateHttpClient(vcrHandler);
 
-                await Assert.ThrowsAsync<Exception>(() => httpClient.GetAsync(s_testUrl));
+                await Assert.ThrowsAsync<MatchNotFoundException>(() => httpClient.GetAsync(s_testUrl));
             }
         }
 

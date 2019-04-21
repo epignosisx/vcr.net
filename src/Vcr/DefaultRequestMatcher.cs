@@ -7,7 +7,6 @@ namespace Vcr
     {
         public bool CompareHeaders { get; set; } = false;
         public bool CompareBody { get; set; } = false;
-
         public HashSet<string> IgnoreHeaders { get; } = new HashSet<string>();
 
         public HttpInteraction FindMatch(IReadOnlyList<HttpInteraction> httpInteractions, HttpRequest request)

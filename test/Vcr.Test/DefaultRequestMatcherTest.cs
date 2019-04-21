@@ -149,6 +149,12 @@ namespace Vcr.Test
                     new Dictionary<string, List<string>> { ["SomeHeader"] = new List<string> { "OtherValue", "SomeValue" } },
                     true,
                     false
+                },
+                new object[]{
+                    new Dictionary<string, List<string>> { ["SomeHeader"] = new List<string> { "SomeValue" } },
+                    new Dictionary<string, List<string>> { ["SomeHeader"] = new List<string> { "OtherValue" } },
+                    false,
+                    true
                 }
             };
         }

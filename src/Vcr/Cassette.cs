@@ -10,8 +10,8 @@ namespace Vcr
     {
         private readonly ICasseteStorage _storage;
         private readonly string _name;
-        private readonly RecordMode _recordMode;
         private readonly bool _isNew;
+        private readonly RecordMode _recordMode;
         private readonly IRequestMatcher _requestMatcher;
         private readonly List<HttpInteraction> _httpInteractions;
 
@@ -66,9 +66,10 @@ namespace Vcr
 
         private Task<HttpResponseMessage> PlaybackAsync(HttpRequestMessage request)
         {
-            var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request));
+            var httpRequest = HttpRequest.Create(request);
+            var match = _requestMatcher.FindMatch(_httpInteractions, httpRequest);
             if (match == null)
-                throw new Exception("No matching request found"); //TODO: throw custom exception with more details.
+                throw new MatchNotFoundException(httpRequest);
 
             return ProcessMatchAsync(match);
         }
@@ -105,11 +106,12 @@ namespace Vcr
             if (_isNew)
                 return RecordAsync(call, request, cancellationToken);
 
-            var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request));
+            var httpRequest = HttpRequest.Create(request);
+            var match = _requestMatcher.FindMatch(_httpInteractions, httpRequest);
             if (match != null)
                 return ProcessMatchAsync(match);
 
-            throw new Exception("No matching request found"); //TODO: throw custom exception with more details.
+            throw new MatchNotFoundException(httpRequest);
         }
 
         private Task<HttpResponseMessage> ProcessMatchAsync(HttpInteraction match)
