@@ -27,6 +27,7 @@ namespace SampleWebApp
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
+            // Register HttpClient with DI to easily override it in integration tests project.
             services.AddSingleton<HttpClient>(AppHttpClientFactory.Create());
         }
 
