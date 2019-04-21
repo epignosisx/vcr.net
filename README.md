@@ -20,19 +20,88 @@ One way of doing it is by registering the `HttpClient` in DI and let all consume
 
 In Startup.cs:
 
-https://github.com/epignosisx/vcr.net/blob/acaecd0f64601e242e9e655db35eb186d0a46ebf/sample/SampleWebApp/Startup.cs#L26-L32
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+    
+    // Register HttpClient with DI to easily override it in integration tests project.
+    services.AddSingleton<HttpClient>(AppHttpClientFactory.Create());
+}
+```
 
 In consuming code:
 
-https://github.com/epignosisx/vcr.net/blob/acaecd0f64601e242e9e655db35eb186d0a46ebf/sample/SampleWebApp/Controllers/HomeController.cs#L16-L21
+```csharp
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+
+namespace SampleWebApp.Controllers
+{
+    public class HomeController : Controller
+    {
+        private readonly HttpClient _httpClient;
+
+        public HomeController(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
+        [HttpGet("/")]
+        public async Task<IActionResult> Index()
+        {
+            var response = await _httpClient.GetStringAsync("https://httpbin.org/get");
+            return Content(response);
+        }
+    }
+}
+```
 
 Then from your integration tests, override the `HttpClient` in DI with a new one containing the VCR.net's delegating handler:
 
-https://github.com/epignosisx/vcr.net/blob/acaecd0f64601e242e9e655db35eb186d0a46ebf/sample/SampleWebApp.IntegrationTest/HomeControllerTest.cs#L12-L31
+```csharp
+public class HomeControllerTest : IClassFixture<WebApplicationFactory<SampleWebApp.Startup>>
+{
+    private readonly VCR _vcr;
+    private readonly WebApplicationFactory<Startup> _factory;
+
+    public HomeControllerTest(WebApplicationFactory<SampleWebApp.Startup> factory)
+    {
+        var dirInfo = new System.IO.DirectoryInfo("../../../cassettes"); //3 levels up to get to the root of the test project
+        _vcr = new VCR(new FileSystemCassetteStorage(dirInfo));
+
+        _factory = factory.WithWebHostBuilder(c =>
+        {
+            c.ConfigureTestServices(services =>
+            {
+                //Override application's HttpClient to use VCR's delegating handler.
+                var vcrHandler = _vcr.GetVcrHandler();
+                services.AddSingleton<HttpClient>(AppHttpClientFactory.Create(vcrHandler));
+            });
+        });
+    }
+```
 
 And finally wrap your test in the cassette you would like to use to record and playback HTTP interactions:
 
-https://github.com/epignosisx/vcr.net/blob/acaecd0f64601e242e9e655db35eb186d0a46ebf/sample/SampleWebApp.IntegrationTest/HomeControllerTest.cs#L33-L46
+```cs
+[Fact]
+public async Task Returns200Ok()
+{
+    using (_vcr.UseCassette("home_page", RecordMode.Once))
+    {
+        //arrange
+        var client = _factory.CreateClient();
+
+        //act
+        var response = await client.GetAsync("/");
+
+        //assert
+        Assert.True(response.IsSuccessStatusCode);
+    }
+}
+```
 
 [Full sample can be found here.](https://github.com/epignosisx/vcr.net/tree/master/sample)
 
