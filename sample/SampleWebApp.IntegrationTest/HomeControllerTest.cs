@@ -23,10 +23,9 @@ namespace SampleWebApp.IntegrationTest
             {
                 c.ConfigureTestServices(services =>
                 {
-                    //Override application's HttpClient to use VCR's delegating handler
+                    //Override application's HttpClient to use VCR's delegating handler.
                     var vcrHandler = _vcr.GetVcrHandler();
-                    vcrHandler.InnerHandler = new HttpClientHandler();
-                    services.AddSingleton<HttpClient>(new HttpClient(vcrHandler));
+                    services.AddSingleton<HttpClient>(AppHttpClientFactory.Create(vcrHandler));
                 });
             });
         }

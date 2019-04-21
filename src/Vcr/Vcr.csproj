@@ -8,14 +8,14 @@
     <Product>VCR.net</Product>
     <ProductName>VCR.net</ProductName>
     <PackageId>VCR.net</PackageId>
-    <Copyright>Copyright 2019 AlexH</Copyright>
+    <Copyright>Copyright 2019 epignosisx</Copyright>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageTags>http record mock fake stub test</PackageTags>
     <PackageProjectUrl>https://github.com/epignosisx/vcr.net</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageVersion>0.1.0</PackageVersion>
-    <AssemblyVersion>0.1.0</AssemblyVersion>
-    <FileVersion>0.1.0</FileVersion>
+    <PackageVersion>0.1.1</PackageVersion>
+    <AssemblyVersion>0.1.1</AssemblyVersion>
+    <FileVersion>0.1.1</FileVersion>
 
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
