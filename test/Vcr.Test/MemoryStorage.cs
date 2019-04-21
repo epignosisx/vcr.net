@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Vcr.Test
 {
@@ -15,9 +16,9 @@ namespace Vcr.Test
             return null;
         }
 
-        public void Save(string name, List<HttpInteraction> httpInteractions)
+        public void Save(string name, IEnumerable<HttpInteraction> httpInteractions)
         {
-            _storage[name] = httpInteractions;
+            _storage[name] = httpInteractions.ToList();
         }
     }
 }

@@ -3,13 +3,28 @@ using System.Linq;
 
 namespace Vcr
 {
+    /// <summary>
+    /// Default implementation of IRequestMatcher but highly configurable and overridable via inheritance. 
+    /// Only matches by Uri and HTTP Method, but have options to also match on Body and Headers.
+    /// </summary>
     public class DefaultRequestMatcher : IRequestMatcher
     {
+        /// <summary>
+        /// Whether to compare headers when finding a match or not. Default is false.
+        /// </summary>
         public bool CompareHeaders { get; set; } = false;
+
+        /// <summary>
+        /// Whether to compare bodies when finding a match or not. Default is false.
+        /// </summary>
         public bool CompareBody { get; set; } = false;
+
+        /// <summary>
+        /// Headers to ignore when comparing. Useful for timestamp or nonce headers.
+        /// </summary>
         public HashSet<string> IgnoreHeaders { get; } = new HashSet<string>();
 
-        public HttpInteraction FindMatch(IReadOnlyList<HttpInteraction> httpInteractions, HttpRequest request)
+        public HttpInteraction FindMatch(HttpInteraction[] httpInteractions, HttpRequest request)
         {
             HttpInteraction bestMatch = null;
             foreach(var httpInteraction in httpInteractions)

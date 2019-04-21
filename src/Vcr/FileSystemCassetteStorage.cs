@@ -48,7 +48,7 @@ namespace Vcr
             }
         }
 
-        public void Save(string name, List<HttpInteraction> httpInteractions)
+        public void Save(string name, IEnumerable<HttpInteraction> httpInteractions)
         {
             var safeName = GetSafeFileName(name);
             var file = new FileInfo(Path.Combine(_storageLocation.FullName, safeName));
@@ -61,7 +61,7 @@ namespace Vcr
                     .WithNamingConvention(new CamelCaseNamingConvention())
                     .Build();
 
-                serializer.Serialize(writer, new StorageWrapperV1 { HttpInteractions = httpInteractions });
+                serializer.Serialize(writer, new StorageWrapperV1 { HttpInteractions = httpInteractions.ToList() });
             }
         }
 

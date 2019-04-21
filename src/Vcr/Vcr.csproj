@@ -2,10 +2,28 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>epignosisx</Authors>
+    <Description>Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.</Description>
+    <Title>VCR.net</Title>
+    <Product>VCR.net</Product>
+    <ProductName>VCR.net</ProductName>
+    <PackageId>VCR.net</PackageId>
+    <Copyright>Copyright 2019 AlexH</Copyright>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageTags>http record mock fake stub test</PackageTags>
+    <PackageProjectUrl>https://github.com/epignosisx/vcr.net</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageVersion>0.1.0</PackageVersion>
+    <AssemblyVersion>0.1.0</AssemblyVersion>
+    <FileVersion>0.1.0</FileVersion>
+
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="YamlDotNet" Version="6.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All" />
   </ItemGroup>
   
 </Project>

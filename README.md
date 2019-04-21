@@ -1,4 +1,4 @@
-# vcr.net
+# VCR.net
 Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
 
 Inspired by [Ruby's VCR](https://github.com/vcr/vcr) project.

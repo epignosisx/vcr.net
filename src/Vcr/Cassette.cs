@@ -35,6 +35,7 @@ namespace Vcr
             }
         }
 
+        // if changing to public lock on _httpInteractions
         internal List<HttpInteraction> HttpInteractions => _httpInteractions;
 
         public void Dispose()
@@ -44,7 +45,10 @@ namespace Vcr
 
         private void Save()
         {
-            _storage.Save(_name, _httpInteractions);
+            lock (_httpInteractions)
+            {
+                _storage.Save(_name, _httpInteractions);
+            }
         }
 
         internal Task<HttpResponseMessage> HandleRequestAsync(HttpCallAsync call, HttpRequestMessage request, CancellationToken cancellationToken)
@@ -67,7 +71,7 @@ namespace Vcr
         private Task<HttpResponseMessage> PlaybackAsync(HttpRequestMessage request)
         {
             var httpRequest = HttpRequest.Create(request);
-            var match = _requestMatcher.FindMatch(_httpInteractions, httpRequest);
+            var match = FindMatch(httpRequest);
             if (match == null)
                 throw new MatchNotFoundException(httpRequest);
 
@@ -88,13 +92,19 @@ namespace Vcr
             if (response.Content != null)
                 await response.Content.LoadIntoBufferAsync();
 
-            _httpInteractions.Add(new HttpInteraction { Request = httpRequest, Response = HttpResponse.Create(response) });
+            var httpResponse = HttpResponse.Create(response);
+
+            lock (_httpInteractions)
+            {
+                _httpInteractions.Add(new HttpInteraction { Request = httpRequest, Response = httpResponse });
+            }
+
             return response;
         }
 
         private Task<HttpResponseMessage> RecordNewAsync(HttpCallAsync call, HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request));
+            var match = FindMatch(HttpRequest.Create(request));
             if (match == null)
                 return RecordAsync(call, request, cancellationToken);
 
@@ -107,11 +117,23 @@ namespace Vcr
                 return RecordAsync(call, request, cancellationToken);
 
             var httpRequest = HttpRequest.Create(request);
-            var match = _requestMatcher.FindMatch(_httpInteractions, httpRequest);
+            var match = FindMatch(httpRequest);
             if (match != null)
                 return ProcessMatchAsync(match);
 
             throw new MatchNotFoundException(httpRequest);
+        }
+
+        private HttpInteraction FindMatch(HttpRequest httpRequest)
+        {
+            HttpInteraction[] snapshot = null;
+            lock (_httpInteractions)
+            {
+                snapshot = _httpInteractions.ToArray();
+            }
+
+            HttpInteraction match = _requestMatcher.FindMatch(snapshot, httpRequest);
+            return match;
         }
 
         private Task<HttpResponseMessage> ProcessMatchAsync(HttpInteraction match)
@@ -121,6 +143,5 @@ namespace Vcr
             var httpResponseMessage = match.Response.ToHttpRequestMessage(httpRequestMessage);
             return Task.FromResult(httpResponseMessage);
         }
-
     }
 }
