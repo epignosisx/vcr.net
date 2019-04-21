@@ -17,7 +17,7 @@ namespace Vcr.Test
         }
 
         [Fact]
-        public async Task RecordsThenPlaybacks()
+        public async Task RecordsOnce_RecordsThenPlaybacks()
         {
             using (_vcr.UseCassette("something", RecordMode.Once))
             {
@@ -37,7 +37,43 @@ namespace Vcr.Test
         }
 
         [Fact]
-        public async Task RecordsEveryTime()
+        public async Task RecordsOnce_ThrowsOnUnmatchedRequestDuringPlayback()
+        {
+            using (_vcr.UseCassette("something", RecordMode.Once))
+            {
+                var vcrHandler = _vcr.GetVcrHandler();
+                var httpClient = CreateHttpClient(vcrHandler);
+                var response = await httpClient.GetAsync(s_testUrl);
+            }
+
+            using (_vcr.UseCassette("something", RecordMode.None))
+            {
+                var vcrHandler = _vcr.GetVcrHandler();
+                var httpClient = CreateHttpClient(vcrHandler);
+                await Assert.ThrowsAsync<Exception>(() => httpClient.GetAsync(s_secondaryTestUrl));
+            }
+        }
+
+        [Fact]
+        public async Task RecordsOnce_RecordsSameRequestMultipleTimes()
+        {
+            //arrange
+            using (_vcr.UseCassette("something", RecordMode.Once))
+            {
+                var vcrHandler = _vcr.GetVcrHandler();
+                var httpClient = CreateHttpClient(vcrHandler);
+
+                //act
+                var response = await httpClient.GetAsync(s_testUrl);
+                response = await httpClient.GetAsync(s_testUrl);
+
+                //arrange
+                Assert.Equal(2, _vcr.Cassette.HttpInteractions.Count);
+            }
+        }
+
+        [Fact]
+        public async Task RecordsAll_RecordsEveryTime()
         {
             using (_vcr.UseCassette("something", RecordMode.All))
             {
@@ -51,7 +87,7 @@ namespace Vcr.Test
         }
 
         [Fact]
-        public async Task ThrowsWhenPlaybackRequestedButNothingIsRecorded()
+        public async Task RecordsNone_ThrowsWhenPlaybackRequestedButNothingIsRecorded()
         {
             using (_vcr.UseCassette("something", RecordMode.None))
             {
@@ -63,7 +99,7 @@ namespace Vcr.Test
         }
 
         [Fact]
-        public async Task RecordsNewEpisodesOnly()
+        public async Task RecordsNewEpisodes_RecordsOnlyNew()
         {
             // Record one episode
             using (_vcr.UseCassette("something", RecordMode.Once))

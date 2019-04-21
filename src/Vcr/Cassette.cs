@@ -52,14 +52,14 @@ namespace Vcr
             if (_recordMode == RecordMode.None)
                 return PlaybackAsync(request);
 
-            if (_recordMode == RecordMode.All)
-                return RecordAsync(call, request, cancellationToken);
+            if (_recordMode == RecordMode.Once)
+                return RecordOnceAsync(call, request, cancellationToken);
 
             if (_recordMode == RecordMode.NewEpisodes)
                 return RecordNewAsync(call, request, cancellationToken);
 
-            if (_recordMode == RecordMode.Once)
-                return RecordOnceAsync(call, request, cancellationToken);
+            if (_recordMode == RecordMode.All)
+                return RecordAsync(call, request, cancellationToken);
 
             throw new InvalidOperationException("Cassette record mode unknown: " + _recordMode.ToString());
         }
@@ -102,12 +102,12 @@ namespace Vcr
 
         private Task<HttpResponseMessage> RecordOnceAsync(HttpCallAsync call, HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            if (_isNew)
+                return RecordAsync(call, request, cancellationToken);
+
             var match = _requestMatcher.FindMatch(_httpInteractions, HttpRequest.Create(request));
             if (match != null)
                 return ProcessMatchAsync(match);
-
-            if (match == null && _isNew)
-                return RecordAsync(call, request, cancellationToken);
 
             throw new Exception("No matching request found"); //TODO: throw custom exception with more details.
         }
