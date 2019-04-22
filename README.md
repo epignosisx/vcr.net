@@ -4,7 +4,7 @@ Record your .NET Core test suite's HTTP interactions and replay them during futu
 Inspired by [Ruby's VCR](https://github.com/vcr/vcr) project.
 
 ## NuGet
-Install the [VCR.net](https://www.nuget.org/packages/VCR.net/0.1.1) package from NuGet to your integration tests project.
+Install the [VCR.net](https://www.nuget.org/packages/VCR.net) package from NuGet to your integration tests project.
 
 ## How does it work?
 VCR.net taps into the `HttpClient` delegating handlers pipeline to record HTTP interactions and then replay them in future tests. This has a few implications:
