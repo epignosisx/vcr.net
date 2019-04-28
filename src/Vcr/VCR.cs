@@ -2,7 +2,7 @@
 
 namespace Vcr
 {
-    public class VCR
+    public class VCR : IVcrProvider
     {
         public ICasseteStorage Storage { get; set; }
 
@@ -32,7 +32,6 @@ namespace Vcr
             return Cassette;
         }
 
-
         /// <summary>
         /// HttpClient delegading handler that must be added to HttpClient middleware pipeline to record and playback HTTP interactions.
         /// </summary>
@@ -40,6 +39,11 @@ namespace Vcr
         public DelegatingHandler GetVcrHandler()
         {
             return new VcrHandler(this);
+        }
+
+        public VCR GetVcr()
+        {
+            return this;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Vcr
                 if (CompareHeaders && !HeadersEqual(httpInteraction.Request, request))
                     continue;
 
-                if (CompareBody && !BodysEqual(httpInteraction.Request, request))
+                if (CompareBody && !BodiesEqual(httpInteraction.Request, request))
                     continue;
 
                 return httpInteraction;
@@ -80,7 +80,7 @@ namespace Vcr
             return true;
         }
 
-        protected virtual bool BodysEqual(HttpRequest recordedRequest, HttpRequest request)
+        protected virtual bool BodiesEqual(HttpRequest recordedRequest, HttpRequest request)
         {
             if (recordedRequest.Body == null && request.Body == null)
                 return true;
