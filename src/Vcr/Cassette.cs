@@ -45,6 +45,12 @@ namespace Vcr
 
         private void Save()
         {
+            if (_recordMode == RecordMode.None)
+                return;
+
+            if (_recordMode == RecordMode.Once && !_isNew)
+                return;
+
             lock (_httpInteractions)
             {
                 _storage.Save(_name, _httpInteractions);
