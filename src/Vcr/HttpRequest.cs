@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using YamlDotNet.Serialization;
 
 namespace Vcr
 {
+    [DebuggerDisplay("{Method} {Uri}")]
     public class HttpRequest
     {
         [YamlMember(Order = 1)]
