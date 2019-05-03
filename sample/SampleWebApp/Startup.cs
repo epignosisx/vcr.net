@@ -19,11 +19,9 @@ namespace SampleWebApp
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Foo = new Foo();
         }
 
         public IConfiguration Configuration { get; }
-        public Foo Foo { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -31,7 +29,7 @@ namespace SampleWebApp
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
             // Register HttpClient with DI to easily override it in integration tests project.
-            services.AddSingleton<HttpClient>(AppHttpClientFactory.Create(Foo));
+            services.AddSingleton<HttpClient>(AppHttpClientFactory.Create());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,8 +39,6 @@ namespace SampleWebApp
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseVcr(Foo);
 
             app.UseMvc();
         }

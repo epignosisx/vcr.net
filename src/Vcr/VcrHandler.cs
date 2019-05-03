@@ -8,23 +8,24 @@ namespace Vcr
 
     public class VcrHandler : DelegatingHandler
     {
-        private readonly IVcrProvider _vcrProvider;
-        private readonly 
+        public IVcrProvider VcrProvider { get; set; }
+
+        public VcrHandler()
+        {
+        }
 
         public VcrHandler(IVcrProvider vcrProvider)
         {
-            _vcrProvider = vcrProvider;
+            VcrProvider = vcrProvider;
         }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var vcr = _vcrProvider.GetVcr();
+            var vcr = VcrProvider?.GetVcr();
+            if (vcr == null)
+                return base.SendAsync(request, cancellationToken);
+
             return vcr.Cassette.HandleRequestAsync(base.SendAsync, request, cancellationToken);
         }
-    }
-
-    public interface IVcrProvider
-    {
-        VCR GetVcr();
     }
 }

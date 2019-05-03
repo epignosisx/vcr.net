@@ -8,17 +8,18 @@ namespace Vcr.AspNetCore
     {
         private readonly RequestDelegate _next;
         private readonly ICassetteProvider _cassetteProvider;
+        private readonly ICasseteStorage _casseteStorage;
 
-        public VcrMiddleware(RequestDelegate next, ICassetteProvider cassetteProvider)
+        public VcrMiddleware(RequestDelegate next, ICassetteProvider cassetteProvider, ICasseteStorage casseteStorage)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _cassetteProvider = cassetteProvider ?? throw new ArgumentNullException(nameof(cassetteProvider));
+            _casseteStorage = casseteStorage ?? throw new ArgumentNullException(nameof(casseteStorage));
         }
 
         public async Task Invoke(HttpContext context)
         {
-            var storage = new FileSystemCassetteStorage(new System.IO.DirectoryInfo(""));
-            var vcr = new VCR(storage);
+            var vcr = new VCR(_casseteStorage);
             var cassette = _cassetteProvider.GetCassette(context);
 
             if (string.IsNullOrEmpty(cassette))
@@ -33,25 +34,5 @@ namespace Vcr.AspNetCore
                 await _next(context);
             }
         }
-    }
-
-    public class HttpContextVcrProvider : IVcrProvider
-    {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public HttpContextVcrProvider(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-        }
-
-        public VCR GetVcr()
-        {
-            return (VCR)_httpContextAccessor.HttpContext.Items["Vcr"];
-        }
-    }
-
-    public interface ICassetteProvider
-    {
-        string GetCassette(HttpContext context);
     }
 }
