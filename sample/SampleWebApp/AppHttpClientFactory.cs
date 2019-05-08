@@ -13,7 +13,6 @@ namespace SampleWebApp
             //create and configure httpClientHandler as needed.
             var httpClientHandler = new HttpClientHandler();
             httpClientHandler.UseCookies = false;
-            httpClientHandler.Properties["VcrCassette"] = "the casstte name";
 
             //create HttpClient delegating handler pipeline
             List<DelegatingHandler> handlers = new List<DelegatingHandler>();
