@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Vcr.AspNetCore
 {
-    public class HttpContextVcrProvider : IVcrProvider
+    internal class HttpContextVcrProvider : IVcrProvider
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 

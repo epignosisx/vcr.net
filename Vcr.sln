@@ -18,7 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApp.IntegrationTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApp", "sample\SampleWebApp\SampleWebApp.csproj", "{60D47888-2805-4B2C-85A8-06E3D0CAA3B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vcr.AspNetCore", "src\Vcr.AspNetCore\Vcr.AspNetCore.csproj", "{8CBBAB8D-EC51-4F71-9608-37B4F39CCA41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vcr.AspNetCore", "src\Vcr.AspNetCore\Vcr.AspNetCore.csproj", "{8CBBAB8D-EC51-4F71-9608-37B4F39CCA41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebAppUsingVcr", "sample\SampleWebAppUsingVcr\SampleWebAppUsingVcr.csproj", "{260045C1-31D9-4E08-A7A7-577CF829CAAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		{8CBBAB8D-EC51-4F71-9608-37B4F39CCA41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CBBAB8D-EC51-4F71-9608-37B4F39CCA41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CBBAB8D-EC51-4F71-9608-37B4F39CCA41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{260045C1-31D9-4E08-A7A7-577CF829CAAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{260045C1-31D9-4E08-A7A7-577CF829CAAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{260045C1-31D9-4E08-A7A7-577CF829CAAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{260045C1-31D9-4E08-A7A7-577CF829CAAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

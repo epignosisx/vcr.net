@@ -1,0 +1,22 @@
+﻿@inject Microsoft.Extensions.Options.IOptions<Vcr.AspNetCore.VcrOptions> vcrOptions
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SampleWebAppUsingVcr</title>
+</head>
+<body>
+    <header>
+        <h1>Sample app with VCR integrated</h1>
+        <form asp-controller="Home" asp-action="UpdateCassette" method="post">
+            <label>Cassete Name: </label>
+            <input type="text" value="@this.ViewContext.HttpContext.Request.Cookies[vcrOptions.Value.CookieName]" />
+            <button type="submit">Submit</button>
+        </form>
+    </header>
+    <hr />
+    @RenderBody()
+</body>
+</html>

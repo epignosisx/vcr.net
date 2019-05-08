@@ -1,0 +1,72 @@
+version: VCR.net 1.0.0
+httpInteractions:
+- request:
+    uri: https://httpbin.org/get
+    method: GET
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Credentials:
+      - true
+      Access-Control-Allow-Origin:
+      - '*'
+      Date:
+      - Wed, 08 May 2019 03:18:01 GMT
+      Referrer-Policy:
+      - no-referrer-when-downgrade
+      Server:
+      - nginx
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-XSS-Protection:
+      - 1; mode=block
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Content-Length:
+      - 148
+    body:
+      encoding: ''
+      string: "{\n  \"args\": {}, \n  \"headers\": {\n    \"Host\": \"httpbin.org\"\n  }, \n  \"origin\": \"73.204.238.153, 73.204.238.153\", \n  \"url\": \"https://httpbin.org/get\"\n}\n"
+    httpVersion: 1.1
+- request:
+    uri: https://httpbin.org/get
+    method: GET
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Credentials:
+      - true
+      Access-Control-Allow-Origin:
+      - '*'
+      Date:
+      - Wed, 08 May 2019 03:18:20 GMT
+      Referrer-Policy:
+      - no-referrer-when-downgrade
+      Server:
+      - nginx
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-XSS-Protection:
+      - 1; mode=block
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Content-Length:
+      - 148
+    body:
+      encoding: ''
+      string: "{\n  \"args\": {}, \n  \"headers\": {\n    \"Host\": \"httpbin.org\"\n  }, \n  \"origin\": \"73.204.238.153, 73.204.238.153\", \n  \"url\": \"https://httpbin.org/get\"\n}\n"
+    httpVersion: 1.1
