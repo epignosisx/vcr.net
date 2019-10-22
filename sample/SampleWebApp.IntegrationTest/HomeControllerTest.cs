@@ -17,7 +17,7 @@ namespace SampleWebApp.IntegrationTest
         public HomeControllerTest(WebApplicationFactory<SampleWebApp.Startup> factory)
         {
             //the directory created should be included in source 
-            //control to ensure future runs and playbacked and not recorded.
+            //control to ensure future runs are playbacked and not recorded.
             var dirInfo = new System.IO.DirectoryInfo("../../../cassettes"); //3 levels up to get to the root of the test project
             _vcr = new VCR(new FileSystemCassetteStorage(dirInfo));
 
