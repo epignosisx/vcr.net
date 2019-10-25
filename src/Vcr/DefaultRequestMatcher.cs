@@ -65,7 +65,7 @@ namespace Vcr
             foreach (var recordedHeader in recordedRequest.Headers)
             {
                 if (IgnoreHeaders.Contains(recordedHeader.Key))
-                    return false;
+                    continue;
 
                 if (!request.Headers.TryGetValue(recordedHeader.Key, out var headerValues))
                     return false;
