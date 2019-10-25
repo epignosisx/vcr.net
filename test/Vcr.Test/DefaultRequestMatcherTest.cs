@@ -79,6 +79,40 @@ namespace Vcr.Test
             Assert.Equal(found, result != null);
         }
 
+        [Fact]
+        public void IgnoreHeaders()
+        {
+            //arrange
+            var matcher = new DefaultRequestMatcher { CompareHeaders = true };
+            matcher.IgnoreHeaders.Add("Authorization");
+
+            var recordedRequest = new HttpRequest
+            {
+                Uri = "https://example.com",
+                Method = "GET",
+                Headers = new Dictionary<string, List<string>> {
+                    ["Authorization"] = new List<string> { "Bearer Token1" },
+                    ["Accept"] = new List<string> { "text/plain" }
+                }
+            };
+            var request = new HttpRequest
+            {
+                Uri = "https://example.com",
+                Method = "GET",
+                Headers = new Dictionary<string, List<string>>
+                {
+                    ["Authorization"] = new List<string> { "Bearer Token2" },
+                    ["Accept"] = new List<string> { "text/plain" }
+                }
+            };
+
+            //act
+            var result = matcher.FindMatch(new[] { new HttpInteraction { Request = recordedRequest } }, request);
+
+            //assert
+            Assert.NotNull(result);
+        }
+
         [Theory]
         [MemberData(nameof(HeaderData))]
         public void CompareHeaders(Dictionary<string, List<string>> recordedHeaders, Dictionary<string, List<string>> headers, bool compare, bool found)
