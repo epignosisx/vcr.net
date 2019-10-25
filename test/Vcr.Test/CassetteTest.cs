@@ -8,8 +8,8 @@ namespace Vcr.Test
     public class CassetteTest
     {
         private readonly VCR _vcr;
-        private const string s_testUrl = "http://portquiz.net";
-        private const string s_secondaryTestUrl = "http://portquiz.net:8080";
+        private const string s_testUrl = "https://httpbin.org/status/200";
+        private const string s_secondaryTestUrl = "https://httpbin.org/response-headers?freeform=123";
 
         public CassetteTest()
         {
