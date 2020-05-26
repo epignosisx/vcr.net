@@ -13,7 +13,7 @@ VCR.net taps into the `HttpClient` delegating handlers pipeline to record HTTP i
 
 2- While the core library does not have any ties to .NET Core, the reality is that .NET Framework uses other APIs for HTTP communication like `HttpWebRequest` and friends which are not supported.
 
-### VCR.net integration into your existing integration tests using ASP.NET Core TestHost
+### Integration into your existing integration tests using ASP.NET Core TestHost
 To integrate into your ASP.NET Core integration tests, first ensure you have a way to tap into all HttpClient instances created by the app. Libraries consumed by the app, usually give you the option to provide the HttpClient to use.
 
 One way of doing it is by registering the `HttpClient` in DI and let all consumers take it from DI:
@@ -23,7 +23,7 @@ In Startup.cs:
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+    ...
     
     // Register HttpClient with DI to easily override it in integration tests project.
     services.AddSingleton<HttpClient>(AppHttpClientFactory.Create());
